@@ -6,7 +6,7 @@ export const generateAITitle = async (content: string): Promise<string> => {
 
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    // 简化请求结构以避免可能的代理/解析错误
+    // 截取前 500 个字符，足以让 AI 理解主题并生成标题
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `You are a creative editor. Read the text below and create a very short, engaging, and professional title (3-5 words).
@@ -17,7 +17,7 @@ export const generateAITitle = async (content: string): Promise<string> => {
       3. No "Title:", "Headline:" or quotes.
       
       TEXT START:
-      ${content.substring(0, 1500)}
+      ${content.substring(0, 500)}
       TEXT END.`,
     });
 
@@ -29,7 +29,7 @@ export const generateAITitle = async (content: string): Promise<string> => {
     return title || "AI Snippet";
   } catch (error) {
     console.error("Gemini Naming Error:", error);
-    // Fallback: 如果 API 失败，抓取前 20 个字符作为标题
+    // Fallback: 如果 API 失败，抓取前 15 个字符作为标题
     const cleanContent = content.trim().replace(/[#*`]/g, '');
     const fallback = cleanContent.split('\n')[0].substring(0, 15);
     return fallback ? fallback + "..." : "AI Snippet";
