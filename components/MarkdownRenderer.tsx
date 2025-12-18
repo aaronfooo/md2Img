@@ -5,12 +5,12 @@ import { marked } from 'marked';
 interface MarkdownRendererProps {
   content: string;
   themeTextColor: string;
+  fontSize: 'medium' | 'large';
 }
 
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, themeTextColor }) => {
+const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, themeTextColor, fontSize }) => {
   const htmlContent = useMemo(() => {
     try {
-      // 配置 marked 以增强安全性并支持 GFM
       return marked.parse(content, {
         gfm: true,
         breaks: true,
@@ -21,9 +21,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, themeTextC
     }
   }, [content]);
 
+  const fontSizeClasses = fontSize === 'large' 
+    ? 'text-[20px] sm:text-[22px] leading-[1.8] space-y-6' 
+    : 'text-[16px] sm:text-[17px] leading-[1.6] space-y-4';
+
   return (
     <div 
-      className={`md-content leading-relaxed text-[16px] sm:text-[17px] ${themeTextColor}`}
+      className={`md-content ${fontSizeClasses} ${themeTextColor}`}
+      style={{ '--md-font-scale': fontSize === 'large' ? '1.25' : '1' } as any}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );

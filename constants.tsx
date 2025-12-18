@@ -1,45 +1,48 @@
 
 import { ThemeConfig, Theme } from './types';
 
+// 采用极细的半透明边框
+const CARD_BORDER = 'border border-black/[0.05]';
+
 export const THEMES: Record<Theme, ThemeConfig> = {
+  solarized: {
+    nameKey: 'theme_solarized',
+    background: 'bg-[#F4F4F9]',
+    cardBackground: `bg-[#FDFCF0] ${CARD_BORDER}`, // 用户上传的米白色
+    textColor: 'text-[#2D2D2E]',
+    accentColor: '',
+    headerStyle: 'border-transparent'
+  },
   gradient: {
     nameKey: 'theme_gradient',
-    background: 'bg-slate-50',
-    cardBackground: 'bg-white border border-slate-100 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12),0_10px_20px_-5px_rgba(0,0,0,0.04)]',
-    textColor: 'text-slate-800',
-    accentColor: 'text-orange-500',
-    headerStyle: 'border-b border-slate-50'
+    background: 'bg-[#F4F4F9]',
+    cardBackground: `bg-[#FFE66E] ${CARD_BORDER}`,
+    textColor: 'text-[#1C1C1E]',
+    accentColor: '',
+    headerStyle: 'border-transparent'
   },
   modern: {
     nameKey: 'theme_modern',
-    background: 'bg-slate-900',
-    cardBackground: 'bg-slate-800 border border-slate-700/50 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]',
-    textColor: 'text-slate-100',
-    accentColor: 'text-blue-400',
-    headerStyle: 'border-b border-slate-700'
+    background: 'bg-[#E5E5EA]',
+    cardBackground: `bg-[#A2DFF7] ${CARD_BORDER}`,
+    textColor: 'text-[#1C1C1E]',
+    accentColor: '',
+    headerStyle: 'border-transparent'
   },
   glass: {
     nameKey: 'theme_glass',
-    background: 'bg-gradient-to-br from-indigo-900 to-purple-900',
-    cardBackground: 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)]',
-    textColor: 'text-white',
-    accentColor: 'text-pink-300',
-    headerStyle: 'border-b border-white/10'
+    background: 'bg-[#F2F2F7]',
+    cardBackground: `bg-[#B4F0A7] ${CARD_BORDER}`,
+    textColor: 'text-[#1C1C1E]',
+    accentColor: '',
+    headerStyle: 'border-transparent'
   },
   midnight: {
     nameKey: 'theme_midnight',
-    background: 'bg-black',
-    cardBackground: 'bg-zinc-900 border border-zinc-800 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)]',
-    textColor: 'text-zinc-100',
-    accentColor: 'text-emerald-400',
-    headerStyle: 'border-b border-zinc-800'
-  },
-  solarized: {
-    nameKey: 'theme_solarized',
-    background: 'bg-[#002b36]',
-    cardBackground: 'bg-[#073642] border border-[#586e75]/30 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)]',
-    textColor: 'text-[#839496]',
-    accentColor: 'text-[#268bd2]',
-    headerStyle: 'border-b border-[#586e75]'
+    background: 'bg-[#D1D1D6]',
+    cardBackground: `bg-[#F9B4D1] ${CARD_BORDER}`,
+    textColor: 'text-[#1C1C1E]',
+    accentColor: '',
+    headerStyle: 'border-transparent'
   }
 };
