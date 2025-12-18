@@ -1,47 +1,48 @@
 
 import { ThemeConfig, Theme } from './types';
 
-// 采用极细的半透明边框
-const CARD_BORDER = 'border border-black/[0.05]';
+// 通用细微边框
+const LIGHT_BORDER = 'border border-black/[0.04]';
+const DARK_BORDER = 'border border-white/[0.08]';
 
 export const THEMES: Record<Theme, ThemeConfig> = {
   solarized: {
     nameKey: 'theme_solarized',
     background: 'bg-[#F4F4F9]',
-    cardBackground: `bg-[#FDFCF0] ${CARD_BORDER}`, // 用户上传的米白色
+    cardBackground: `bg-[#FDFCF0] ${LIGHT_BORDER}`,
     textColor: 'text-[#2D2D2E]',
     accentColor: '',
     headerStyle: 'border-transparent'
   },
-  gradient: {
-    nameKey: 'theme_gradient',
-    background: 'bg-[#F4F4F9]',
-    cardBackground: `bg-[#FFE66E] ${CARD_BORDER}`,
-    textColor: 'text-[#1C1C1E]',
+  mint: {
+    nameKey: 'theme_mint',
+    background: 'bg-[#ECFDF5]',
+    cardBackground: `bg-[#D1FAE5] ${LIGHT_BORDER}`,
+    textColor: 'text-[#064E3B]',
     accentColor: '',
     headerStyle: 'border-transparent'
   },
-  modern: {
-    nameKey: 'theme_modern',
-    background: 'bg-[#E5E5EA]',
-    cardBackground: `bg-[#A2DFF7] ${CARD_BORDER}`,
-    textColor: 'text-[#1C1C1E]',
+  lavender: {
+    nameKey: 'theme_lavender',
+    background: 'bg-[#F5F3FF]',
+    cardBackground: `bg-[#EDE9FE] ${LIGHT_BORDER}`,
+    textColor: 'text-[#4C1D95]',
     accentColor: '',
     headerStyle: 'border-transparent'
   },
-  glass: {
-    nameKey: 'theme_glass',
-    background: 'bg-[#F2F2F7]',
-    cardBackground: `bg-[#B4F0A7] ${CARD_BORDER}`,
-    textColor: 'text-[#1C1C1E]',
+  graphite: {
+    nameKey: 'theme_graphite',
+    background: 'bg-[#0F172A]',
+    cardBackground: `bg-[#1E293B] ${DARK_BORDER}`,
+    textColor: 'text-[#E2E8F0]',
     accentColor: '',
     headerStyle: 'border-transparent'
   },
-  midnight: {
-    nameKey: 'theme_midnight',
-    background: 'bg-[#D1D1D6]',
-    cardBackground: `bg-[#F9B4D1] ${CARD_BORDER}`,
-    textColor: 'text-[#1C1C1E]',
+  clay: {
+    nameKey: 'theme_clay',
+    background: 'bg-[#FFF7ED]',
+    cardBackground: `bg-[#FFEDD5] ${LIGHT_BORDER}`,
+    textColor: 'text-[#7C2D12]',
     accentColor: '',
     headerStyle: 'border-transparent'
   }

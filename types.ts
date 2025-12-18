@@ -1,5 +1,5 @@
 
-export type Theme = 'modern' | 'glass' | 'midnight' | 'solarized' | 'gradient';
+export type Theme = 'mint' | 'lavender' | 'graphite' | 'solarized' | 'clay';
 
 export interface ThemeConfig {
   nameKey: string;
