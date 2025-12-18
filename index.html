@@ -16,21 +16,76 @@
     }
     .md-content {
       word-break: break-word;
+      line-height: 1.6;
     }
-    .md-content p { margin-bottom: 1.25em; line-height: 1.6; }
-    .md-content h1, .md-content h2, .md-content h3 { font-weight: 900; margin-top: 1.5em; margin-bottom: 0.5em; line-height: 1.2; }
-    .md-content h1 { font-size: 1.5em; }
-    .md-content h2 { font-size: 1.25em; }
-    .md-content ul, .md-content ol { margin-bottom: 1.25em; padding-left: 1.25em; }
-    .md-content li { margin-bottom: 0.5em; }
-    .md-content blockquote { border-left: 3px solid currentColor; padding-left: 1em; opacity: 0.6; margin: 1.5em 0; }
-    .md-content code { font-family: 'Fira Code', monospace; font-size: 0.85em; background: rgba(0,0,0,0.05); padding: 0.15em 0.3em; border-radius: 4px; }
-    .md-content pre { background: rgba(0,0,0,0.05); padding: 1em; border-radius: 12px; margin: 1.5em 0; overflow-x: auto; }
-    .md-content pre code { background: none; padding: 0; font-size: 0.8em; }
-    .md-content img { border-radius: 8px; max-width: 100%; margin: 1em 0; }
-    .md-content table { border-collapse: collapse; width: 100%; margin: 1.5em 0; font-size: 0.9em; }
-    .md-content th, .md-content td { border: 1px solid rgba(0,0,0,0.1); padding: 0.75em; text-align: left; }
-    .md-content th { background: rgba(0,0,0,0.03); font-weight: 800; }
+    .md-content p { margin-bottom: 1.2em; }
+    .md-content h1, .md-content h2, .md-content h3 { font-weight: 800; margin-top: 1.6em; margin-bottom: 0.6em; line-height: 1.3; color: inherit; }
+    .md-content h1 { font-size: 1.6em; border-bottom: 1px solid currentColor; padding-bottom: 0.3em; opacity: 0.95; }
+    .md-content h2 { font-size: 1.4em; opacity: 0.9; }
+    .md-content h3 { font-size: 1.2em; opacity: 0.85; }
+    
+    /* 修复列表样式：Tailwind Preflight 会重置这些，需要手动补回 */
+    .md-content ul { list-style-type: disc; margin-bottom: 1.2em; padding-left: 1.5em; }
+    .md-content ol { list-style-type: decimal; margin-bottom: 1.2em; padding-left: 1.5em; }
+    .md-content li { margin-bottom: 0.4em; padding-left: 0.2em; }
+    .md-content li > ul, .md-content li > ol { margin-top: 0.4em; margin-bottom: 0.4em; }
+    
+    .md-content blockquote { 
+      border-left: 4px solid currentColor; 
+      padding-left: 1.2em; 
+      opacity: 0.7; 
+      margin: 1.5em 0; 
+      font-style: italic;
+      background: rgba(0,0,0,0.02);
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+    
+    .md-content code { 
+      font-family: 'Fira Code', monospace; 
+      font-size: 0.9em; 
+      background: rgba(0,0,0,0.06); 
+      padding: 0.1em 0.35em; 
+      border-radius: 4px; 
+      vertical-align: middle;
+    }
+    .md-content pre { 
+      background: rgba(0,0,0,0.04); 
+      padding: 1.25em; 
+      border-radius: 12px; 
+      margin: 1.5em 0; 
+      overflow-x: auto; 
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .md-content pre code { 
+      background: none; 
+      padding: 0; 
+      font-size: 0.85em; 
+      line-height: 1.5;
+      display: block;
+      color: inherit;
+    }
+    
+    .md-content hr {
+      margin: 2em 0;
+      border: 0;
+      border-top: 1px solid currentColor;
+      opacity: 0.15;
+    }
+
+    .md-content img { border-radius: 12px; max-width: 100%; margin: 1.5em auto; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    
+    .md-content table { border-collapse: collapse; width: 100%; margin: 1.5em 0; font-size: 0.9em; overflow: hidden; border-radius: 8px; }
+    .md-content th, .md-content td { border: 1px solid rgba(0,0,0,0.1); padding: 0.8em 1em; text-align: left; }
+    .md-content th { background: rgba(0,0,0,0.05); font-weight: 700; }
+    .md-content tr:nth-child(even) { background: rgba(0,0,0,0.01); }
+
+    /* 复选框样式支持 */
+    .md-content input[type="checkbox"] {
+      margin-right: 0.5em;
+      accent-color: currentColor;
+      transform: translateY(-1px);
+    }
   </style>
 <script type="importmap">
 {
