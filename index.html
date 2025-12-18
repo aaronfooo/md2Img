@@ -8,14 +8,19 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
   <style>
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     
-    /* Markdown 渲染样式加固 */
+    /* 强制全局加粗规则，解决生产环境 Tailwind 重置问题 */
+    strong, b {
+      font-weight: 800 !important;
+    }
+
+    /* Markdown 核心渲染样式 */
     .md-content {
       word-break: break-word;
       line-height: 1.6;
@@ -23,21 +28,16 @@
     
     .md-content p { margin-bottom: 1.2em; }
     
-    /* 列表专项修复：使用悬挂缩进，确保美观且圆点可见 */
+    /* 列表专项：悬挂缩进 + 圆点加固 */
     .md-content ul, .md-content ol {
       margin-bottom: 1.2em !important;
-      padding-left: 1.5em !important; /* 给圆点留出足够空间 */
+      padding-left: 1.6em !important;
       display: block !important;
       list-style-position: outside !important;
     }
     
-    .md-content ul {
-      list-style-type: disc !important;
-    }
-    
-    .md-content ol {
-      list-style-type: decimal !important;
-    }
+    .md-content ul { list-style-type: disc !important; }
+    .md-content ol { list-style-type: decimal !important; }
     
     .md-content li {
       display: list-item !important;
@@ -45,17 +45,10 @@
       line-height: 1.6 !important;
     }
 
-    /* 嵌套列表缩进 */
-    .md-content li > ul, .md-content li > ol {
-      margin-top: 0.4em !important;
-      margin-left: 1.2em !important;
-      margin-bottom: 0.4em !important;
-    }
-    
-    /* 强行注入 marker 颜色，确保在所有浏览器下一致 */
+    /* Marker 样式 */
     .md-content li::marker {
       color: currentColor !important;
-      font-size: 1.1em;
+      font-weight: bold !important;
     }
     
     /* 标题排版 */
@@ -75,10 +68,10 @@
       border-radius: 0 12px 12px 0;
     }
     
-    /* 代码块 */
+    /* 代码块与行内代码 */
     .md-content code { 
       font-family: 'Fira Code', monospace; 
-      font-size: 0.85em; 
+      font-size: 0.88em; 
       background: rgba(0,0,0,0.08); 
       padding: 0.2em 0.4em; 
       border-radius: 6px; 
@@ -103,7 +96,7 @@
     .md-content th, .md-content td { border: 1px solid rgba(0,0,0,0.1); padding: 0.8em 1em; text-align: left; }
     .md-content th { background: rgba(0,0,0,0.08); font-weight: 700; }
     
-    /* 防止截图时内容溢出或剪切 */
+    /* 截图容器溢出保护 */
     .markdown-note {
       overflow: visible !important;
     }
@@ -124,7 +117,6 @@
 </head>
 <body>
   <div id="root"></div>
-  <!-- 显式加载脚本，确保部署环境一致性 -->
   <script type="module" src="index.tsx"></script>
 </body>
 </html>
