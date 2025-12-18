@@ -32,7 +32,7 @@ const AI_MODELS = [
   { id: '文心一言', nameKey: 'ai_wenxin' },
 ];
 
-const TEXT_LENGTH_THRESHOLD = 6000; // 超过 6k 字视为长文本
+const TEXT_LENGTH_THRESHOLD = 6000;
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<LanguageCode>('zh-CN');
@@ -87,6 +87,21 @@ const App: React.FC = () => {
     }
   };
 
+  const getCaptureOptions = () => ({
+    pixelRatio: 2.5,
+    backgroundColor: 'transparent',
+    cacheBust: true,
+    style: {
+      transform: 'scale(1)',
+    },
+  });
+
+  /**
+   * 修复核心：
+   * 在某些浏览器（尤其是 Safari）中，如果在用户点击事件和调用剪贴板写入之间存在较长的异步时间（如 toBlob 渲染），
+   * 浏览器会认为该操作不是用户触发的，从而抛出 NotAllowedError。
+   * 解决方法是：立即调用 navigator.clipboard.write，并传入一个返回 Blob 的 Promise。
+   */
   const copyImageToClipboard = async () => {
     if (!captureRef.current || isGenerating) return;
     
@@ -99,33 +114,33 @@ const App: React.FC = () => {
     setIsCopied(false);
     setError(null);
 
-    // 对于极长内容，进一步压缩倍率
-    const targetPixelRatio = isTooLong ? 1.5 : 2;
-
     try {
       const element = captureRef.current;
-      const blobPromise = toBlob(element, { 
-        pixelRatio: targetPixelRatio,
-        backgroundColor: isDarkMode ? '#1a1a1a' : '#f0f0f0',
-        cacheBust: true,
-      }).then(blob => {
+      const options = getCaptureOptions();
+
+      // 创建一个能够异步解析 Blob 的 Promise
+      const blobPromise = toBlob(element, options).then(blob => {
         if (!blob) throw new Error("Blob creation failed");
-        // 简单体积检查 (15MB 预警)
-        if (blob.size > 15 * 1024 * 1024) {
-          throw new Error("IMAGE_TOO_LARGE");
-        }
+        if (blob.size > 15 * 1024 * 1024) throw new Error("IMAGE_TOO_LARGE");
         return blob;
       });
 
-      const clipboardItem = new ClipboardItem({ 'image/png': blobPromise });
-      await navigator.clipboard.write([clipboardItem]);
+      // 关键：立即写入，利用 Promise 绕过用户激活过期问题
+      const item = new ClipboardItem({
+        'image/png': blobPromise as Promise<Blob>
+      });
+
+      await navigator.clipboard.write([item]);
       
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 3000);
     } catch (err: any) {
       console.error("Copy failed:", err);
-      if (err.message === "IMAGE_TOO_LARGE" || err.name === "NotAllowedError") {
+      // 特殊处理：如果图片太大或权限被拒
+      if (err.message === "IMAGE_TOO_LARGE") {
         setError(t.error_clipboard_size);
+      } else if (err.name === 'NotAllowedError' || err.message?.includes('denied')) {
+        setError(lang === 'zh-CN' ? "剪贴板访问被拒绝或操作超时，请重试或直接【下载图片】" : "Clipboard access denied or timed out. Please try again or Download.");
       } else {
         setError(t.error_gen_failed);
       }
@@ -139,11 +154,7 @@ const App: React.FC = () => {
     setIsGenerating(true);
     setError(null);
     try {
-      const dataUrl = await toPng(captureRef.current, { 
-        pixelRatio: 2, 
-        backgroundColor: isDarkMode ? '#1a1a1a' : '#f0f0f0',
-        cacheBust: true
-      });
+      const dataUrl = await toPng(captureRef.current, getCaptureOptions());
       const link = document.createElement('a');
       link.download = `AI-Snippet-${Date.now()}.png`;
       link.href = dataUrl;
@@ -293,7 +304,7 @@ const App: React.FC = () => {
         <section className="sticky top-8">
           <div className={`flex justify-center p-8 rounded-[3rem] border overflow-hidden transition-colors ${isDarkMode ? 'bg-[#0F0F10] border-white/5' : 'bg-slate-200 border-black/5'}`}>
             <div ref={captureRef} className={`p-10 transition-colors duration-500 ${currentTheme.background}`}>
-              <div className={`${currentTheme.cardBackground} w-[360px] min-h-[480px] flex flex-col transition-all duration-500 overflow-hidden rounded-[2px] shadow-sm`}>
+              <div className={`${currentTheme.cardBackground} w-[360px] min-h-[480px] flex flex-col transition-all duration-500 overflow-visible rounded-[2px] shadow-sm`}>
                 <div className="p-10 flex-1">
                   <div className="mb-8">
                     <h2 className={`font-black tracking-tight leading-tight mb-3 ${currentTheme.textColor} ${fontSize === 'large' ? 'text-3xl' : 'text-2xl'}`}>{title}</h2>
