@@ -1,0 +1,5 @@
+{
+  "name": "AI回复转长图",
+  "description": "将 AI 的 Markdown 回答转换为精美的分享长图。支持 AI 自动标题、多主题定制、一键复制到剪贴板。",
+  "requestFramePermissions": []
+}
